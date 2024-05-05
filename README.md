@@ -1,4 +1,5 @@
 ![alt text](image.png)
+
 When entering a message from 3 different clients, the server will receive the message and send it to all other clients.
 
 I modified the port 2000 to 8080 in the code at `src/bin/client.rs` and `src/bin/server.rs`
@@ -39,3 +40,14 @@ let listener = TcpListener::bind("127.0.0.1:8080").await?;
 </table>
 
 The server listens using TCP while the client makes a connection using websocket. This can be done because the websocket protocol enables ongoing, bidirectional communication between a web client and a web server over an underlying TCP connection while TCP provides the reliable transport layer protocol.
+
+![alt text](image2.png)
+
+I modified the code at `src/bin/server.rs` to pass the IP and ports from client to server and back to client again.
+
+```rust
+// server.rs
+bcast_tx.send(text.into())?; // before
+
+bcast_tx.send(format!("{addr} : {text}"))?; // after
+```
